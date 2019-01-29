@@ -1,0 +1,52 @@
+Firebase
+
+Authorized domains
+localhost
+Default
+flighttracker-372f6.firebaseapp.com
+Default-tbd
+flighttracker.herokuapp.com
+
+
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$user_id": {
+        ".read": "$user_id === auth.uid",
+        ".write": "$user_id === auth.uid",
+        "waypoints": {
+          "$waypoint_id": {
+            ".validate": "newData.hasChildren(['lat', 'lng', 'timestamp'])",
+            "lat": {
+              ".validate": "newData.isNumber()"
+            },
+            "lng": {
+              ".validate": "newData.isNumber()"
+            },
+            "timestamp": {
+              ".validate": "newData.isNumber()"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
+        },
+        "$other": {
+          ".validate": false
+        }
+      }
+    }
+  }
+}
+
+Simulator
+users/b41068a4-5039-4554-a6ab-ddd5549d3157/waypoints/abc123
+
+Data
+{
+  "lat": 24,
+  "lng": '25',
+  "timestamp": 25
+}

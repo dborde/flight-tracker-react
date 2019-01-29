@@ -1,0 +1,7 @@
+node_modules/
+public/dist/
+.env.development
+.env.test
+src/playground/firebase.js
+.DS_Store
+src/.DS_Store

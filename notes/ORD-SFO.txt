@@ -1,0 +1,109 @@
+: LatLng {lat: 41.97684819454686, lng: -87.91122436523439}
+1: LatLng {lat: 42.48830197960227, lng: -91.142578125}
+2: LatLng {lat: 42.48830197960227, lng: -94.74609375000001}
+3: LatLng {lat: 42.553080288955826, lng: -99.40429687500001}
+4: LatLng {lat: 42.16340342422403, lng: -103.97460937500001}
+5: LatLng {lat: 42.09822241118974, lng: -108.63281250000001}
+6: LatLng {lat: 41.244772343082076, lng: -114.60937500000001}
+7: LatLng {lat: 40.74725696280421, lng: -117.59765625000001}
+8: LatLng {lat: 39.774769485295465, lng: -119.97070312500001}
+9: LatLng {lat: 38.65119833229951, lng: -121.81640625000001}
+10: LatLng {lat: 37.85750715625203, lng: -122.65136718750001}
+11: LatLng {lat: 37.78808138412046, lng: -122.4755859375}
+
+
+let options = {
+      connectivityState: connectivityStatus,
+      config: config,
+      locale: locale,
+      flightInfo: {
+        flightNum: ifeReducerData.flightInfo.flightNo,
+        flightOrigin: ifeReducerData.flightInfo.departureAirportIata,
+        flightDest: ifeReducerData.flightInfo.arrivalAirportIata,
+        tailNumber: ifeReducerData.flightInfo.tailNumber,
+        macAddress: ifeReducerData.networkInfo.userMac
+      }
+    }
+let {
+      roaming,
+      hasRoaming
+    } = this.props;
+
+
+
+
+    // create instance variables
+    _this.panZoomBar = '';
+    _this.previousLat = '';
+    _this.previousLon = '';
+    _this.currentLat = '';
+    _this.currentLon = '';
+    // variables for locations/points, these are set in the createRoute when new data is available
+    _this.originLonLat = '';
+    _this.originPoint = '';
+    _this.destinationLonLat = '';
+    _this.destinationPoint = '';
+    _this.airplaneLonLat = '';
+    _this.airplanePoint = '';
+    _this.followFlight = false;
+
+
+  props: {
+    fetched: 'boolean',
+    airlineCode: 'string',
+    airlineCodeIata: 'string',
+    departureCity: 'string',
+    departureAirportCodeIcao: 'string',
+    destinationAirportCodeIcao: 'string',
+    departureAirportCodeIata: 'string',
+    departureUtcOffset: 'number',
+    destinationCity: 'string',
+    destinationAirportCodeIata: 'string',
+    destinationUtcOffset: 'number',
+    expectedArrival: 'string',
+    flightNumberAlpha: 'string',
+    flightNumberInfo: 'string',
+    flightNumberNumeric: 'number',
+    tailNumber: 'string',
+    departureLat: 'number',
+    departureLong: 'number',
+    destinationLat: 'number',
+    destinationLong: 'number',
+    departureTime: 'string',
+    arrivalTime: 'string'
+  },
+
+  props: {
+    fetched: 'boolean',
+    airlineCode: 'string',
+    airlineName: 'string',
+    departureAirportCodeIcao: 'string',
+    destinationAirportCodeIcao: 'string',
+    departureAirportCodeIata: 'string',
+    destinationAirportCodeIata: 'string',
+    departureCity: 'string',
+    destinationCity: 'string',
+    departureUtcOffset: 'number',
+    destinationUtcOffset: 'number',
+    departureTime: 'string',
+    arrivalTime: 'string',
+    departureTime24Local: 'string',
+    arrivalTime24Local: 'string',
+    expectedArrival: 'string',
+    expectedArrivalTime: 'any',
+    expectedArrivalLocal: 'any',
+    flightNumberAlpha: 'string',
+    flightNumberInfo: 'string',
+    flightNumberNumeric: 'number',
+    latitude: 'number',
+    longitude: 'number',
+    tailNumber: 'string',
+    utcTime: 'string',
+    departureLat: 'number',
+    departureLong: 'number',
+    destinationLat: 'number',
+    destinationLong: 'number',
+    timeRemaining: 'array',
+    serviceInfo: 'any',
+    xhrCounterGround: ['number', false, 0]
+  },

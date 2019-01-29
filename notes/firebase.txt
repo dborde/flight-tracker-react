@@ -1,0 +1,52 @@
+// FlightTracker
+
+<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDKtzvbykyvlJpZOxwxGZI7B85OYIdgDxw",
+    authDomain: "flighttracker-372f6.firebaseapp.com",
+    databaseURL: "https://flighttracker-372f6.firebaseio.com",
+    projectId: "flighttracker-372f6",
+    storageBucket: "",
+    messagingSenderId: "1020701181013"
+  };
+  firebase.initializeApp(config);
+</script>
+
+
+{
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
+
+Google
+project-1020701181013
+
+
+// FlightTrackerTest
+
+<script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB3-NQYLBjvEM5Yft26l6kYxy85RSZVgZ4",
+    authDomain: "flighttrackertest.firebaseapp.com",
+    databaseURL: "https://flighttrackertest.firebaseio.com",
+    projectId: "flighttrackertest",
+    storageBucket: "flighttrackertest.appspot.com",
+    messagingSenderId: "1075758011926"
+  };
+  firebase.initializeApp(config);
+</script>
+
+{
+  /* Visit https://firebase.google.com/docs/database/security to learn more about security rules. */
+  "rules": {
+    ".read": false,
+    ".write": false
+  }
+}
