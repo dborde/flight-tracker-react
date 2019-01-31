@@ -1,10 +1,12 @@
 // import React from 'react';
+import L from 'leaflet';
+import 'leaflet-arc';
+import { Map, TileLayer, Polyline } from 'react-leaflet';
 import React, { PropTypes } from 'react';
 // import uuid from 'uuid';
 import { connect } from 'react-redux';
-import { Map, TileLayer, Polyline } from 'react-leaflet';
 import { AddMarker } from './AddMarker';
-import 'leaflet-arc';
+
 
 // initial zoom level will be the tightest zoom level
 // that includes orig and dest markers on the map
@@ -14,19 +16,19 @@ const mapCenter = [
   41.9741,
   -87.9073
 ];
-const wayPoints = [
-  [41.97684819454686, -87.91122436523439],
-  [42.48830197960227, -91.142578125],
-  [42.48830197960227, -94.74609375000001],
-  [42.553080288955826, -99.40429687500001],
-  [42.16340342422403, -103.97460937500001],
-  [42.09822241118974, -114.60937500000001],
-  [40.74725696280421, -117.59765625000001],
-  [39.774769485295465, -119.97070312500001],
-  [38.65119833229951, -121.81640625000001],
-  [37.85750715625203, -122.65136718750001],
-  [37.78808138412046, -122.4755859375]
-];
+// const wayPoints = [
+//   [41.97684819454686, -87.91122436523439],
+//   [42.48830197960227, -91.142578125],
+//   [42.48830197960227, -94.74609375000001],
+//   [42.553080288955826, -99.40429687500001],
+//   [42.16340342422403, -103.97460937500001],
+//   [42.09822241118974, -114.60937500000001],
+//   [40.74725696280421, -117.59765625000001],
+//   [39.774769485295465, -119.97070312500001],
+//   [38.65119833229951, -121.81640625000001],
+//   [37.85750715625203, -122.65136718750001],
+//   [37.78808138412046, -122.4755859375]
+// ];
 // let options = {
 //   departureLat: 41.97684819454686,
 //   departureLng: -87.91122436523439,
@@ -52,11 +54,7 @@ export class FlightTrackerPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waypoints: {
-        idx: '',
-        lat: 0,
-        lng: 0
-      },
+      waypoints: [],
       markers: [],
       planePath: [],
       currentZoomLevel: zoomLevel
@@ -67,24 +65,20 @@ export class FlightTrackerPage extends React.Component {
     const {
       markers
     } = this.state;
-    // planePath.push([e.latlng.lat, e.latlng.lng]);
-    // this.setState({ planePath });
     markers.push(e.latlng);
     this.setState({ markers });
-    console.log(this.state);
   }
-  addWaypoint = (e) => {
+
+  addWaypoints = (previous, current, v = 200, o = 100) => {
     const {
-      planePath
+      waypoints
     } = this.state;
-    planePath.push([e.latlng.lat, e.latlng.lng]);
-    this.setState({ planePath });
-    console.log(this.state);
+    const data = L.Polyline.Arc(previous, current, { vertices: v, offset: o });
+    data._latlngs.forEach((x) => waypoints.push(x));
+    this.setState({ waypoints });
   }
+
   componentDidMount() {
-    let data;
-    let data2;
-    let data3;
     const leafletMap = this.leafletMap.leafletElement;
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
@@ -92,23 +86,23 @@ export class FlightTrackerPage extends React.Component {
       window.console.log('Current zoom level -> ', leafletMap.getZoom());
       window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
-    const {
-      planePath
-    } = this.state;
     setTimeout(() => {
-      data = L.Polyline.Arc([41.97684819454686, -87.91122436523439], [42.553080288955826, -99.40429687500001], { vertices: 200, offset: 100 });
-      this.setState({ planePath: data._latlngs });
+      this.addWaypoints(
+        [41.97684819454686, -87.91122436523439],
+        [42.553080288955826, -99.40429687500001]
+      );
     }, 1000);
     setTimeout(() => {
-      data2 = L.Polyline.Arc([42.553080288955826, -99.40429687500001], [42.09822241118974, -114.60937500000001], { vertices: 200, offset: 100 });
-      data2._latlngs.forEach((x) => data._latlngs.push(x));
-      // this.state.planePath.push(data2._latlngs);
-      this.setState({ planePath: data._latlngs });
+      this.addWaypoints(
+        [42.553080288955826, -99.40429687500001],
+        [42.09822241118974, -114.60937500000001]
+      );
     }, 5000);
     setTimeout(() => {
-      data3 = L.Polyline.Arc([42.09822241118974, -114.60937500000001], [37.78808138412046, -122.4755859375], { vertices: 200, offset: 100 });
-      data3._latlngs.forEach((x) => data._latlngs.push(x));
-      this.setState({ planePath: data._latlngs });
+      this.addWaypoints(
+        [42.09822241118974, -114.60937500000001],
+        [37.78808138412046, -122.4755859375]
+      );
     }, 10000);
   }
   handleZoomLevelChange(newZoomLevel) {
@@ -121,7 +115,7 @@ export class FlightTrackerPage extends React.Component {
           ref={m => { this.leafletMap = m; }}
           center={mapCenter}
           onClick={this.addMarker}
-          // initial zoom level will be the tightest zoom level
+          // TODO create set method to set initial zoom level will be the tightest zoom level
           // that includes orig and dest markers on the map
           zoom={this.state.currentZoomLevel}
         >
@@ -134,9 +128,7 @@ export class FlightTrackerPage extends React.Component {
           />
           <Polyline
             color="blue"
-            onClick={this.addWaypoint}
-            // positions={[this.state.planePath]}
-            positions={[this.state.planePath]}
+            positions={[this.state.waypoints]}
           />
         </Map>
       </div>
