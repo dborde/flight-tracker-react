@@ -85,8 +85,8 @@
     to-fast-properties "^2.0.0"
 
 "@types/node@*":
-  version "10.12.19"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.19.tgz#ca1018c26be01f07e66ac7fefbeb6407e4490c61"
+  version "10.12.20"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.20.tgz#f79f959acd3422d0889bd1ead1664bd2d17cd367"
 
 abab@^1.0.3:
   version "1.0.4"
@@ -238,6 +238,10 @@ append-transform@^0.4.0:
 aproba@^1.0.3:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/aproba/-/aproba-1.2.0.tgz#6802e6264efd18c790a1b0d517f0f2627bf2c94a"
+
+"arc@git+https://github.com/springmeyer/arc.js.git#b005df058b010d1c7aaf3aa451516d41294dac0e":
+  version "0.1.0"
+  resolved "git+https://github.com/springmeyer/arc.js.git#b005df058b010d1c7aaf3aa451516d41294dac0e"
 
 are-we-there-yet@~1.1.2:
   version "1.1.5"
@@ -4138,6 +4142,12 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+leaflet-arc@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/leaflet-arc/-/leaflet-arc-1.0.2.tgz#b1e2bdb7bc4c382071fd5bffba299793d263f527"
+  dependencies:
+    arc "git+https://github.com/springmeyer/arc.js.git#b005df058b010d1c7aaf3aa451516d41294dac0e"
+
 leaflet@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/leaflet/-/leaflet-1.4.0.tgz#d5f56eeb2aa32787c24011e8be4c77e362ae171b"
@@ -4669,8 +4679,8 @@ nopt@^4.0.1:
     osenv "^0.1.4"
 
 normalize-package-data@^2.3.2, normalize-package-data@^2.3.4:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.4.0.tgz#12f95a307d58352075a04907b84ac8be98ac012f"
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/normalize-package-data/-/normalize-package-data-2.4.2.tgz#6b2abd85774e51f7936f1395e45acb905dc849b2"
   dependencies:
     hosted-git-info "^2.1.4"
     is-builtin-module "^1.0.0"

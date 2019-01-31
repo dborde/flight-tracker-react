@@ -1,9 +1,10 @@
 // import React from 'react';
 import React, { PropTypes } from 'react';
-import uuid from 'uuid';
+// import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { Map, TileLayer, Polyline } from 'react-leaflet';
 import { AddMarker } from './AddMarker';
+import 'leaflet-arc';
 
 // initial zoom level will be the tightest zoom level
 // that includes orig and dest markers on the map
@@ -81,6 +82,9 @@ export class FlightTrackerPage extends React.Component {
     console.log(this.state);
   }
   componentDidMount() {
+    let data;
+    let data2;
+    let data3;
     const leafletMap = this.leafletMap.leafletElement;
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
@@ -88,24 +92,24 @@ export class FlightTrackerPage extends React.Component {
       window.console.log('Current zoom level -> ', leafletMap.getZoom());
       window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
-    // this.interval = setInterval(() => {
-    //   this.setState({ planePath: [wayPoints] });
-    // }, 5000);
     const {
       planePath
     } = this.state;
     setTimeout(() => {
-      planePath.push([41.97684819454686, -87.91122436523439]);
-      this.setState(planePath);
+      data = L.Polyline.Arc([41.97684819454686, -87.91122436523439], [42.553080288955826, -99.40429687500001], { vertices: 200, offset: 100 });
+      this.setState({ planePath: data._latlngs });
     }, 1000);
     setTimeout(() => {
-      planePath.push([42.48830197960227, -91.142578125]);
-      this.setState(planePath);
-    }, 2000);
+      data2 = L.Polyline.Arc([42.553080288955826, -99.40429687500001], [42.09822241118974, -114.60937500000001], { vertices: 200, offset: 100 });
+      data2._latlngs.forEach((x) => data._latlngs.push(x));
+      // this.state.planePath.push(data2._latlngs);
+      this.setState({ planePath: data._latlngs });
+    }, 5000);
     setTimeout(() => {
-      planePath.push([42.48830197960227, -94.74609375000001]);
-      this.setState(planePath);
-    }, 3000);
+      data3 = L.Polyline.Arc([42.09822241118974, -114.60937500000001], [37.78808138412046, -122.4755859375], { vertices: 200, offset: 100 });
+      data3._latlngs.forEach((x) => data._latlngs.push(x));
+      this.setState({ planePath: data._latlngs });
+    }, 10000);
   }
   handleZoomLevelChange(newZoomLevel) {
     this.setState({ currentZoomLevel: newZoomLevel });
