@@ -1,21 +1,67 @@
-// import React from 'react';
+import React from 'react';
 import L from 'leaflet';
 import 'leaflet-arc';
-import { Map, TileLayer, Polyline } from 'react-leaflet';
-import React, { PropTypes } from 'react';
+import { Map, Marker, TileLayer, Polyline } from 'react-leaflet';
+// import React, { PropTypes } from 'react';
 // import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { AddMarker } from './AddMarker';
+import RotatedMarker from './RotatedMarker';
 
+const airplane = new L.Icon({
+  className: 'leaflet-airplane',
+  iconUrl: 'images/airplane.svg',
+  iconAnchor: [19, 19],
+  popupAnchor: [-3, -76],
+  iconSize: [38, 38],
+  zIndexOffset: 10
+});
+const getBearing = (point, dest) => {
+  const d2r = Math.PI / 180;
+  const r2d = 180 / Math.PI;
+  const lat1 = point.lat * d2r;
+  const lat2 = dest.lat * d2r;
+  const dLon = (dest.lng-point.lng) * d2r;
+  const y = Math.sin(dLon) * Math.cos(lat2);
+  const x = (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon));
+  let brng = Math.atan2(y, x);
+  brng = parseInt(brng * r2d, 10);
+  brng = (brng + 360) % 360;
+  return brng;
+};
+
+const airportOrigin = new L.Icon({
+  className: 'leaflet-airport-origin',
+  iconUrl: 'images/airport-origin.svg',
+  iconAnchor: [14, 40],
+  popupAnchor: [10, -44],
+  iconSize: [25, 55]
+});
+
+const airportDestination = new L.Icon({
+  className: 'leaflet-airport-destination',
+  iconUrl: 'images/airport-destination.svg',
+  iconAnchor: [14, 40],
+  popupAnchor: [10, -44],
+  iconSize: [25, 55]
+});
 
 // initial zoom level will be the tightest zoom level
 // that includes orig and dest markers on the map
-const zoomLevel = 4;
+const initialZoomLevel = 6;
 // initial mapCenter will be the current lat lng of the plane when app is ready
-const mapCenter = [
+const initialMapCenter = [
   41.9741,
   -87.9073
 ];
+// intitial plane position will be first poll to lat long when app is started
+const initialPlanePosition = [
+  41.97684819454686,
+  -87.91122436523439
+];
+
+const initialRotationAngle = -90;
+
 // const wayPoints = [
 //   [41.97684819454686, -87.91122436523439],
 //   [42.48830197960227, -91.142578125],
@@ -56,8 +102,10 @@ export class FlightTrackerPage extends React.Component {
     this.state = {
       waypoints: [],
       markers: [],
-      // planePath: [],
-      currentZoomLevel: zoomLevel
+      currentPlanePosition: initialPlanePosition,
+      currentZoomLevel: initialZoomLevel,
+      currentMapCenter: initialMapCenter,
+      currentRotationAngle: initialRotationAngle
     };
   }
 
@@ -84,7 +132,8 @@ export class FlightTrackerPage extends React.Component {
   * [gdal/ogr/ogrgeometryfactory.cpp](https://github.com/OSGeo/gdal/blob/master/gdal/ogr/ogrgeometryfactory.cpp)
   * and have not taken the time to fully comprehend how it works.
   */
-  addWaypoints = (previous, current, v = 200, o = 10) => {
+  // fewer waypoints, more delay v = 50, 30 * index produces same speed
+  addWaypoints = (previous, current, v = 100, o = 10) => {
     const {
       waypoints
     } = this.state;
@@ -94,7 +143,21 @@ export class FlightTrackerPage extends React.Component {
       setTimeout(() => {
         waypoints.push(x);
         this.setState({ waypoints });
-      }, 3 * index);
+        this.setState({ currentPlanePosition: x });
+        const bearing = getBearing({
+          lat: x.lat,
+          lng: x.lng
+        }, {
+          lat: current[0],
+          lng: current[1]
+        });
+        // TODO fix when mid waypoint bearing returns 90 at end of update
+        if (bearing !== 90) {
+          this.setState({ currentRotationAngle: bearing });
+        }
+        // this.setState({ currentRotationAngle: bearing });
+        this.setState({ currentMapCenter: x });
+      }, 20 * index);
     });
   }
 
@@ -130,10 +193,10 @@ export class FlightTrackerPage extends React.Component {
   }
   render() {
     return (
-      <div>
+      <div className="flight-map">
         <Map
           ref={m => { this.leafletMap = m; }}
-          center={mapCenter}
+          center={this.state.currentMapCenter}
           onClick={this.addMarker}
           // TODO create set method to set initial zoom level will be the tightest zoom level
           // that includes orig and dest markers on the map
@@ -146,6 +209,14 @@ export class FlightTrackerPage extends React.Component {
           <AddMarker
             position={this.state.markers}
           />
+          <Marker className="flight-data" position={[41.97684819454686, -87.91122436523439]} icon={airportOrigin} />
+          <RotatedMarker
+            className="flight-data"
+            position={this.state.currentPlanePosition}
+            rotationAngle={this.state.currentRotationAngle}
+            icon={airplane}
+          />
+          <Marker className="flight-data" position={[37.78808138412046, -122.4755859375]} icon={airportDestination} />
           <Polyline
             color="blue"
             positions={[this.state.waypoints]}

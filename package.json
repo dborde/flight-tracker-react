@@ -28,6 +28,7 @@
     "history": "4.7.2",
     "leaflet": "^1.4.0",
     "leaflet-arc": "^1.0.2",
+    "leaflet-rotatedmarker": "^0.2.0",
     "moment": "^2.22.2",
     "node-sass": "4.5.3",
     "normalize.css": "7.0.0",

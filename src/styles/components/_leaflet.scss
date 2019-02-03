@@ -62,6 +62,13 @@
   height: 41px;
 }
 
+.leaflet-marker-icon.leaflet-airplane, .leaflet-marker-icon.leaflet-airport-origin, .leaflet-marker-icon.leaflet-airport-destination {
+  background: none;
+}
+.leaflet-marker-icon.leaflet-airplane {
+  z-index: 1000 !important;
+}
+
 
 /* map is broken in FF if you have max-width: 100% on tiles */
 
