@@ -7,6 +7,7 @@ import { Map, Marker, TileLayer, Polyline } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { AddMarker } from './AddMarker';
 import RotatedMarker from './RotatedMarker';
+// import flightInfo from './FlightInfo';
 
 const airplane = new L.Icon({
   className: 'leaflet-airplane',
@@ -21,7 +22,7 @@ const getBearing = (point, dest) => {
   const r2d = 180 / Math.PI;
   const lat1 = point.lat * d2r;
   const lat2 = dest.lat * d2r;
-  const dLon = (dest.lng-point.lng) * d2r;
+  const dLon = (dest.lng - point.lng) * d2r;
   const y = Math.sin(dLon) * Math.cos(lat2);
   const x = (Math.cos(lat1) * Math.sin(lat2)) - (Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon));
   let brng = Math.atan2(y, x);
@@ -157,6 +158,7 @@ export class FlightTrackerPage extends React.Component {
         }
         // this.setState({ currentRotationAngle: bearing });
         this.setState({ currentMapCenter: x });
+        console.log(this.state.currentMapCenter);
       }, 20 * index);
     });
   }
@@ -200,7 +202,7 @@ export class FlightTrackerPage extends React.Component {
           onClick={this.addMarker}
           // TODO create set method to set initial zoom level will be the tightest zoom level
           // that includes orig and dest markers on the map
-          zoom={this.state.currentZoomLevel}
+          zoom={this.props.zoom}
         >
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -227,9 +229,17 @@ export class FlightTrackerPage extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+// const mapDispatchToProps = (dispatch) => ({
 
-});
+// });
+const mapStateToProps = (state) => {
+  return {
+    options: state.options
+  };
+};
+
+export default connect(mapStateToProps)(FlightTrackerPage);
+
 
 // FlightTrackerPage.propTypes = {
 //   departureLat: PropTypes.number,
@@ -246,4 +256,4 @@ const mapDispatchToProps = (dispatch) => ({
 // };
 
 
-export default connect(undefined, mapDispatchToProps)(FlightTrackerPage);
+// export default connect(undefined, mapDispatchToProps)(FlightTrackerPage);

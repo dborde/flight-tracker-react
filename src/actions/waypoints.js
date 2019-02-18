@@ -35,7 +35,7 @@ export const removeWaypoint = ({ id } = {}) => ({
 export const startRemoveWaypoint = ({ id } = {}) => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    return database.ref(`users/${uid}/expenses/${id}`).remove()
+    return database.ref(`users/${uid}/waypoints/${id}`).remove()
       .then(() => {
         dispatch(removeWaypoint({ id }));
       });
@@ -52,7 +52,7 @@ export const setWaypoints = (waypoints) => ({
 export const startSetWaypoints = () => {
   return (dispatch, getState) => {
     const uid = getState().auth.uid;
-    return database.ref(`users/${uid}/expenses`)
+    return database.ref(`users/${uid}/waypoints`)
       .once('value')
       .then((snapshot) => {
         const waypoints = [];
