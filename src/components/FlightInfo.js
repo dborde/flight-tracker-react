@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FlightTrackerPage from './FlightTrackerPage';
+import { startAddWaypoints } from '../actions/waypointsActions';
 
 // const setInitialZoomLevel = (sw, ne) => {
 //   const leafletMap = this.leafletMap.leafletElement;
@@ -60,7 +61,7 @@ const initialZoomLevel = 6;
 //   -87.91122436523439
 // ];
 
-export default class FlightInfo extends React.Component {
+export class FlightInfo extends React.Component {
   state = {
     options: 'some option',
     value: 0,
@@ -76,12 +77,23 @@ export default class FlightInfo extends React.Component {
       value: 1,
       currentZoomLevel: 5
     }));
+    this.setState({ currentZoomLevel: 6 });
+    this.setState({ options: 'another option' });
+    this.increment();
+    // this.props.startAddWaypoints();
     // this.setState({ currentZoomLevel: initialZoomLevel });
     setTimeout(() => {
-      this.setState({ currentZoomLevel: 6 });
-      this.setState({ options: 'another option' });
-      this.increment();
-    }, 5000);
+      this.props.startAddWaypoints(
+        [41.97684819454686, -87.91122436523439],
+        [42.553080288955826, -99.40429687500001]
+      );
+    }, 50);
+    setTimeout(() => {
+      this.props.startAddWaypoints(
+        [42.553080288955826, -99.40429687500001],
+        [42.09822241118974, -114.60937500000001]
+      );
+    }, 50);
   }
   componentDidUpdate(prevProps, prevState) {
     console.log('prevState');
@@ -100,11 +112,23 @@ export default class FlightInfo extends React.Component {
         <FlightTrackerPage
           zoom={this.state.currentZoomLevel}
           options={this.state.options}
+          waypoints={this.props.waypoints}
         />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  waypoints: state.waypoints
+});
+
+const mapDispatchToProps = (dispatch, props) => ({
+  startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FlightInfo);
+
 
 // const mapStateToProps = (state) => {
 //   return {

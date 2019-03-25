@@ -158,6 +158,7 @@ export class FlightTrackerPage extends React.Component {
         }
         // this.setState({ currentRotationAngle: bearing });
         this.setState({ currentMapCenter: x });
+        console.log('currentMapCenter');
         console.log(this.state.currentMapCenter);
       }, 20 * index);
     });
@@ -171,24 +172,24 @@ export class FlightTrackerPage extends React.Component {
       window.console.log('Current zoom level -> ', leafletMap.getZoom());
       window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
-    setTimeout(() => {
-      this.addWaypoints(
-        [41.97684819454686, -87.91122436523439],
-        [42.553080288955826, -99.40429687500001]
-      );
-    }, 1000);
-    setTimeout(() => {
-      this.addWaypoints(
-        [42.553080288955826, -99.40429687500001],
-        [42.09822241118974, -114.60937500000001]
-      );
-    }, 5000);
-    setTimeout(() => {
-      this.addWaypoints(
-        [42.09822241118974, -114.60937500000001],
-        [37.78808138412046, -122.4755859375]
-      );
-    }, 10000);
+    // setTimeout(() => {
+    //   this.addWaypoints(
+    //     [41.97684819454686, -87.91122436523439],
+    //     [42.553080288955826, -99.40429687500001]
+    //   );
+    // }, 1000);
+    // setTimeout(() => {
+    //   this.addWaypoints(
+    //     [42.553080288955826, -99.40429687500001],
+    //     [42.09822241118974, -114.60937500000001]
+    //   );
+    // }, 5000);
+    // setTimeout(() => {
+    //   this.addWaypoints(
+    //     [42.09822241118974, -114.60937500000001],
+    //     [37.78808138412046, -122.4755859375]
+    //   );
+    // }, 10000);
   }
   handleZoomLevelChange(newZoomLevel) {
     this.setState({ currentZoomLevel: newZoomLevel });
@@ -221,7 +222,7 @@ export class FlightTrackerPage extends React.Component {
           <Marker className="flight-data" position={[37.78808138412046, -122.4755859375]} icon={airportDestination} />
           <Polyline
             color="blue"
-            positions={[this.state.waypoints]}
+            positions={this.props.waypoints}
           />
         </Map>
       </div>

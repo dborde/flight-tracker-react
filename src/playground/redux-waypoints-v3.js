@@ -5,35 +5,19 @@ import 'leaflet-arc';
 // Reducers
 // 1. are pure functions
 // 2. Never change state or actions
-const waypointsReducerDefaultState = [];
-const waypointsReducer = (state = waypointsReducerDefaultState, action) => {
+const routeReducerDefaultState = [];
+const routeReducer = (state = routeReducerDefaultState, action = {}) => {
   switch (action.type) {
     case 'ADD_WAYPOINTS':
       return [
         ...state,
         action.waypoints
       ];
-    default:
-      return state;
-  }
-};
-
-const bearingReducerDefaultState = [];
-const bearingReducer = (state = bearingReducerDefaultState, action) => {
-  switch (action.type) {
     case 'GET_BEARING':
       return [
         // ...state,
         action.bearing
       ];
-    default:
-      return state;
-  }
-};
-
-const centerReducerDefaultState = [];
-const centerReducer = (state = centerReducerDefaultState, action) => {
-  switch (action.type) {
     case 'GET_CENTER':
       return [
         // ...state,
@@ -63,9 +47,7 @@ const calcBearing = (point, dest) => {
 const store = createStore(
   combineReducers(
     {
-      waypoints: waypointsReducer,
-      currentRotationAngle: bearingReducer,
-      currentMapCenter: centerReducer
+      route: routeReducer
     }
   )
 );
