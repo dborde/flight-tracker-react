@@ -134,36 +134,141 @@ export class FlightTrackerPage extends React.Component {
   * and have not taken the time to fully comprehend how it works.
   */
   // fewer waypoints, more delay v = 50, 30 * index produces same speed
+  // addWaypoints = (previous, current, v = 100, o = 10) => {
+  //   const {
+  //     waypoints
+  //   } = this.state;
+  //   const data = L.Polyline.Arc(previous, current, { vertices: v, offset: o });
+  //   data._latlngs.forEach((x, index) => {
+  //     // could animation of line get any simpler than this?
+  //     setTimeout(() => {
+  //       waypoints.push(x);
+  //       this.setState({ waypoints });
+  //       this.setState({ currentPlanePosition: x });
+  //       const bearing = getBearing({
+  //         lat: x.lat,
+  //         lng: x.lng
+  //       }, {
+  //         lat: current[0],
+  //         lng: current[1]
+  //       });
+  //       // TODO fix when mid waypoint bearing returns 90 at end of update
+  //       if (bearing !== 90) {
+  //         this.setState({ currentRotationAngle: bearing });
+  //       }
+  //       // this.setState({ currentRotationAngle: bearing });
+  //       this.setState({ currentMapCenter: x });
+  //       console.log(this.state.currentMapCenter);
+  //     }, 20 * index);
+  //   });
+  // }
+
+
   addWaypoints = (previous, current, v = 100, o = 10) => {
-    const {
-      waypoints
-    } = this.state;
     const data = L.Polyline.Arc(previous, current, { vertices: v, offset: o });
-    data._latlngs.forEach((x, index) => {
-      // could animation of line get any simpler than this?
-      setTimeout(() => {
-        waypoints.push(x);
-        this.setState({ waypoints });
-        this.setState({ currentPlanePosition: x });
-        const bearing = getBearing({
-          lat: x.lat,
-          lng: x.lng
-        }, {
-          lat: current[0],
-          lng: current[1]
-        });
-        // TODO fix when mid waypoint bearing returns 90 at end of update
-        if (bearing !== 90) {
-          this.setState({ currentRotationAngle: bearing });
-        }
-        // this.setState({ currentRotationAngle: bearing });
-        this.setState({ currentMapCenter: x });
-        console.log(this.state.currentMapCenter);
-      }, 20 * index);
-    });
+    this.animatePosition(data, current, v);
   }
 
+  animatePosition = (data, current, v) => {
+    const drawnData = data._latlngs;
+    let idx = 0;
+    const animateLine = () => {
+      const {
+        waypoints
+      } = this.state;
+      let currentArray = drawnData;
+      let val = currentArray.shift();
+      let lastVal = current;
+      if (!val) {
+        drawnData.shift();
+        idx += 1;
+        currentArray = drawnData[0] || [];
+        val = currentArray.shift();
+      }
+      if (!val) {
+        return;
+      }
+      waypoints.push(val);
+      this.setState({ waypoints });
+      this.setState({ currentPlanePosition: val });
+      const bearing = getBearing({
+        lat: val.lat,
+        lng: val.lng
+      }, {
+        lat: lastVal[0],
+        lng: lastVal[1]
+      });
+      idx += 1;
+      if (idx < v) {
+        this.setState({ currentRotationAngle: bearing });
+      }
+      this.setState({ currentMapCenter: val });
+      lastVal = val;
+      requestAnimationFrame(animateLine);
+    };
+    requestAnimationFrame(animateLine);
+  }
+
+  // // Redux action
+  // waypointAnimationStep = (progress) => {
+  //   return {
+  //     type: 'SET_NEXT_WAYPOINT',
+  //     progress
+  //   };
+  // }
+
+  // const waypointReducer = function(state = defaultLogoState, action) {
+  //   switch (action.type){
+  //     case 'LOGO.SET_NEXT_ANIMATION_STEP':
+  //       let progress = action.progress
+        
+  //       return Object.assign({}, state, {
+  //         animationProgress : progress,
+  //         lightLogoOpacity  : 1 - progress,
+  //         colorLogoOpacity  : progress,
+  //         backgroundPos     : Math.floor(BACKGROUND_POS_START - (progress * BACKGROUND_POS_START)),
+  //         backgroundColor   : getBackgroundColor(progress)
+  //       })
+  //     default:
+  //       return state
+  //   }
+  // }
+
+  // // Redux store setup
+  // const storeApp = finalCreateStore(Redux.combineReducers({waypoint: waypointReducer}));
+
+  // animatePosition = (x) => {
+  //   const duration = 1000; // in ms
+  //   const fps = 60; // frames per second
+  //   const waypointStep = 1 / ((duration / 1000) * fps);
+  //   let takeStep = waypointStep;
+  //   let idx = 1;
+
+  //   const animationStep = () => {
+  //     setTimeout(() => {
+  //       if (this.state.logo.animationProgress < 1) {
+  //         storeApp.dispatch(this.waypointAnimationStep(takeStep));
+  //         idx += 1;
+  //         takeStep = waypointStep * idx;
+  //         window.requestAnimationFrame(animationStep.bind(this));
+  //       }
+  //     }, 1000 / fps);
+  //   };
+
+  //   // kick off animation
+  //   window.requestAnimationFrame(animationStep.bind(this));
+  // }
+
   componentDidMount() {
+
+
+    // this.animatePosition(
+    //   [41.97684819454686, -87.91122436523439],
+    //   [42.553080288955826, -99.40429687500001]
+    // );
+
+
+
     const leafletMap = this.leafletMap.leafletElement;
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
