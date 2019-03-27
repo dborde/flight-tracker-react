@@ -16,39 +16,6 @@ import { startAddWaypoints } from '../actions/waypointsActions';
 //   // ]);
 // };
 
-// const store = {
-//   waypoints: [
-//     [{
-//       lat: 42.123,
-//       lng: -103.123
-//     }],
-//     [{
-//       lat: 42.123,
-//       lng: -103.123
-//     }],
-//     [{
-//       lat: 42.123,
-//       lng: -103.123
-//     }]
-//   ],
-//   currentZoomLevel: 6,
-//   mapCenter: [{
-//     lat: 42.123,
-//     lng: -103.123
-//   }],
-//   initialRotationAngle: 90,
-//   markers: [],
-//   currentPlanePosition: [{
-//     lat: 42.123,
-//     lng: -103.123
-//   }],
-//   currentMapCenter: [{
-//     lat: 42.123,
-//     lng: -103.123
-//   }],
-//   currentRotationAngle: 0
-// };
-
 const initialZoomLevel = 6;
 // initial mapCenter will be the current lat lng of the plane when app is ready
 // const myMapCenter = [
@@ -67,40 +34,32 @@ export class FlightInfo extends React.Component {
     value: 0,
     currentZoomLevel: initialZoomLevel
   }
-  increment = () => {
-    this.setState(prevState => ({
-      value: prevState.value + 1
-    }));
-  }
   componentDidMount(prevProps, prevState) {
-    this.setState(() => ({
-      value: 1,
-      currentZoomLevel: 5
-    }));
-    this.setState({ currentZoomLevel: 6 });
-    this.setState({ options: 'another option' });
-    this.increment();
-    // this.props.startAddWaypoints();
-    // this.setState({ currentZoomLevel: initialZoomLevel });
     setTimeout(() => {
       this.props.startAddWaypoints(
         [41.97684819454686, -87.91122436523439],
         [42.553080288955826, -99.40429687500001]
       );
-    }, 50);
+    }, 1000);
     setTimeout(() => {
       this.props.startAddWaypoints(
         [42.553080288955826, -99.40429687500001],
         [42.09822241118974, -114.60937500000001]
       );
-    }, 50);
+    }, 5000);
+    setTimeout(() => {
+      this.props.startAddWaypoints(
+        [42.09822241118974, -114.60937500000001],
+        [37.78808138412046, -122.4755859375]
+      );
+    }, 10000);
   }
   componentDidUpdate(prevProps, prevState) {
-    console.log('prevState');
-    console.log(prevState);
-    console.log(prevState.value);
-    console.log('prevProps');
-    console.log(prevProps);
+    // console.log('prevState');
+    // console.log(prevState);
+    // console.log(prevState.value);
+    // console.log('prevProps');
+    // console.log(prevProps);
     // if (prevState.options.length !== this.state.options.length) {
     //   const json = JSON.stringify(this.state.options);
     //   localStorage.setItem('options', json);
@@ -113,6 +72,8 @@ export class FlightInfo extends React.Component {
           zoom={this.state.currentZoomLevel}
           options={this.state.options}
           waypoints={this.props.waypoints}
+          bearing={this.props.bearing}
+          position={this.props.position}
         />
       </div>
     );
@@ -120,7 +81,9 @@ export class FlightInfo extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  waypoints: state.waypoints
+  waypoints: state.waypoints,
+  bearing: state.bearing,
+  position: state.currentPlanePosition
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
@@ -128,11 +91,3 @@ const mapDispatchToProps = (dispatch, props) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightInfo);
-
-
-// const mapStateToProps = (state) => {
-//   return {
-//   };
-// };
-
-// export default connect(mapStateToProps)(FlightInfo);
