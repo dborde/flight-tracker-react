@@ -37,7 +37,6 @@ export const getPosition = (pos) => ({
 export const startAddWaypoints = (previous, current, v = 100, o = 10) => {
   return (dispatch, getState) => {
     const data = L.Polyline.Arc(previous, current, { vertices: v, offset: o });
-    const waypoints = [];
     const animatePosition = () => {
       const drawnData = data._latlngs;
       let idx = 0;
@@ -54,8 +53,7 @@ export const startAddWaypoints = (previous, current, v = 100, o = 10) => {
         if (!val) {
           return;
         }
-        waypoints.push(val);
-        dispatch(addWaypoints(waypoints));
+        dispatch(addWaypoints(val));
         dispatch(getPosition([val.lat, val.lng]));
         const bearing = calcBearing({
           lat: val.lat,
