@@ -53,12 +53,11 @@ export class FlightTrackerPage extends React.Component {
 
   componentDidMount() {
     const leafletMap = this.leafletMap.leafletElement;
-    leafletMap._zoom = 6;
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
       this.handleZoomLevelChange(updatedZoomLevel);
-      window.console.log('Current zoom level -> ', leafletMap.getZoom());
-      window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
+      // window.console.log('Current zoom level -> ', leafletMap.getZoom());
+      // window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
   }
   handleZoomLevelChange(newZoomLevel) {
