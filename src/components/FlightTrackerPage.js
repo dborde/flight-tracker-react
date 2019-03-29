@@ -6,8 +6,9 @@ import { Map, Marker, TileLayer, Polyline } from 'react-leaflet';
 // import uuid from 'uuid';
 import { connect } from 'react-redux';
 import { AddMarker } from './AddMarker';
+import { SetBounds } from './SetBounds';
+import { SetZoom } from './SetZoom';
 import RotatedMarker from './RotatedMarker';
-// import flightInfo from './FlightInfo';
 
 const airplane = new L.Icon({
   className: 'leaflet-airplane',
@@ -34,32 +35,11 @@ const airportDestination = new L.Icon({
   iconSize: [25, 55]
 });
 
-// initial zoom level will be the tightest zoom level
-// that includes orig and dest markers on the map
-const initialZoomLevel = 6;
-// initial mapCenter will be the current lat lng of the plane when app is ready
-const initialMapCenter = [
-  41.9741,
-  -87.9073
-];
-// intitial plane position will be first poll to lat long when app is started
-const initialPlanePosition = [
-  41.97684819454686,
-  -87.91122436523439
-];
-
-const initialRotationAngle = -90;
-
 export class FlightTrackerPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      waypoints: [],
-      markers: [],
-      currentPlanePosition: initialPlanePosition,
-      currentZoomLevel: initialZoomLevel,
-      currentMapCenter: initialMapCenter,
-      currentRotationAngle: initialRotationAngle
+      markers: []
     };
   }
 
@@ -73,11 +53,12 @@ export class FlightTrackerPage extends React.Component {
 
   componentDidMount() {
     const leafletMap = this.leafletMap.leafletElement;
+    leafletMap._zoom = 6;
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
       this.handleZoomLevelChange(updatedZoomLevel);
-      // window.console.log('Current zoom level -> ', leafletMap.getZoom());
-      // window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
+      window.console.log('Current zoom level -> ', leafletMap.getZoom());
+      window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
   }
   handleZoomLevelChange(newZoomLevel) {
@@ -90,8 +71,6 @@ export class FlightTrackerPage extends React.Component {
           ref={m => { this.leafletMap = m; }}
           center={this.props.position}
           onClick={this.addMarker}
-          // TODO create set method to set initial zoom level will be the tightest zoom level
-          // that includes orig and dest markers on the map
           zoom={this.props.zoom}
         >
           <TileLayer
@@ -101,14 +80,24 @@ export class FlightTrackerPage extends React.Component {
           <AddMarker
             position={this.state.markers}
           />
-          <Marker className="flight-data" position={[41.97684819454686, -87.91122436523439]} icon={airportOrigin} />
+          <SetBounds
+            map={this.leafletMap}
+            orig={this.props.airportOrigin}
+            dest={this.props.airportDestination}
+          />
+          <SetZoom
+            map={this.leafletMap}
+            position={this.props.position}
+            zoom={8}
+          />
+          <Marker className="flight-data" position={this.props.airportOrigin} icon={airportOrigin} />
           <RotatedMarker
             className="flight-data"
             position={this.props.position}
             rotationAngle={this.props.bearing}
             icon={airplane}
           />
-          <Marker className="flight-data" position={[37.78808138412046, -122.4755859375]} icon={airportDestination} />
+          <Marker className="flight-data" position={this.props.airportDestination} icon={airportDestination} />
           <Polyline
             color="blue"
             positions={this.props.waypoints}

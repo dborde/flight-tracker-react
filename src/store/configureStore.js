@@ -8,6 +8,11 @@ import positionReducer from '../reducers/positionReducer';
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export default () => {
+  const initialState = { 
+    waypoints: JSON.parse(localStorage.getItem('waypoints')) || [],
+    bearing: JSON.parse(localStorage.getItem('bearing')) || 0,
+    currentPlanePosition: JSON.parse(localStorage.getItem('position')) || [0, 0]
+  };
   const store = createStore(
     combineReducers(
       {
@@ -17,6 +22,7 @@ export default () => {
         currentPlanePosition: positionReducer
       }
     ),
+    initialState,
     composeEnhancers(applyMiddleware(thunk))
   );
 

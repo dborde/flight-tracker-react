@@ -2,89 +2,102 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FlightTrackerPage from './FlightTrackerPage';
 import { startAddWaypoints } from '../actions/waypointsActions';
-
-// const setInitialZoomLevel = (sw, ne) => {
-//   const leafletMap = this.leafletMap.leafletElement;
-//   // console.log(leafletMap.getBounds());
-//   leafletMap.fitBounds([
-//     [sw.lat, sw.lng],
-//     [ne.lat, ne.lng]
-//   ]);
-//   // leafletMap.fitBounds([  `
-//   //   [42.48830197960227, -91.142578125],
-//   //   [42.553080288955826, -99.40429687500001]
-//   // ]);
-// };
+import data from '../tests/fixtures/statusTray';
 
 const initialZoomLevel = 6;
-// initial mapCenter will be the current lat lng of the plane when app is ready
-// const myMapCenter = [
-//   41.9741,
-//   -87.9073
-// ];
-// intitial plane position will be first poll to lat long when app is started
-// const myPlanePosition = [
-//   41.97684819454686,
-//   -87.91122436523439
-// ];
-
 export class FlightInfo extends React.Component {
   state = {
-    options: 'some option',
-    value: 0,
     currentZoomLevel: initialZoomLevel
   }
   componentDidMount(prevProps, prevState) {
+    // setTimeout(() => {
+    //   this.props.startAddWaypoints(
+    //     this.props.initialPlanePosition,
+    //     this.props.newPlanePosition
+    //   );
+    // }, 1000);
+    // setTimeout(() => {
+    //   this.props.startAddWaypoints(
+    //     [42.553080288955826, -99.40429687500001],
+    //     [42.09822241118974, -114.60937500000001]
+    //   );
+    // }, 5000);
+    // setTimeout(() => {
+    //   this.props.startAddWaypoints(
+    //     [42.09822241118974, -114.60937500000001],
+    //     [37.78808138412046, -122.4755859375]
+    //   );
+    // }, 10000);
     setTimeout(() => {
       this.props.startAddWaypoints(
-        [41.97684819454686, -87.91122436523439],
-        [42.553080288955826, -99.40429687500001]
+        this.props.position,
+        this.props.newPlanePosition
       );
     }, 1000);
-    setTimeout(() => {
-      this.props.startAddWaypoints(
-        [42.553080288955826, -99.40429687500001],
-        [42.09822241118974, -114.60937500000001]
-      );
-    }, 5000);
-    setTimeout(() => {
-      this.props.startAddWaypoints(
-        [42.09822241118974, -114.60937500000001],
-        [37.78808138412046, -122.4755859375]
-      );
-    }, 10000);
   }
   componentDidUpdate(prevProps, prevState) {
-    // console.log('prevState');
-    // console.log(prevState);
-    // console.log(prevState.value);
-    // console.log('prevProps');
-    // console.log(prevProps);
-    // if (prevState.options.length !== this.state.options.length) {
-    //   const json = JSON.stringify(this.state.options);
-    //   localStorage.setItem('options', json);
-    // }
+    const {
+      waypoints,
+      position,
+      bearing
+    } = prevProps;
+    const waypointsStorage = JSON.stringify(waypoints);
+    localStorage.setItem('waypoints', waypointsStorage);
+    const positionStorage = JSON.stringify(position);
+    localStorage.setItem('position', positionStorage);
+    const bearingStorage = JSON.stringify(bearing);
+    localStorage.setItem('bearing', bearingStorage);
+  }
+  componentWillUnmount() {
+    // TODO clear localStoarge
   }
   render() {
     return (
       <div className="flight-data">
         <FlightTrackerPage
+          initialPlanePosition={this.props.initialPlanePosition}
           zoom={this.state.currentZoomLevel}
-          options={this.state.options}
           waypoints={this.props.waypoints}
           bearing={this.props.bearing}
+          newPlanePosition={this.props.newPlanePosition}
           position={this.props.position}
+          airportOrigin={this.props.airportOrigin}
+          airportDestination={this.props.airportDestination}
         />
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => ({
-  waypoints: state.waypoints,
-  bearing: state.bearing,
-  position: state.currentPlanePosition
-});
+const mapStateToProps = (state) => {
+  const {
+    Response
+  } = data || {};
+
+  const {
+    flightInfo
+  } = Response || {};
+
+  const { 
+    departureAirportLatitude = 0,
+    departureAirportLongitude = 0,
+    destinationAirportLatitude = 0,
+    destinationAirportLongitude = 0,
+    latitude = 0,
+    longitude = 0
+  } = flightInfo || {};
+
+  return ({
+    initialPlanePosition: [departureAirportLatitude, departureAirportLongitude],
+    waypoints: state.waypoints,
+    bearing: state.bearing,
+    position: state.currentPlanePosition[0] === 0 ?
+      [departureAirportLatitude, departureAirportLongitude] : state.currentPlanePosition,
+    newPlanePosition: [latitude, longitude],
+    airportOrigin: [departureAirportLatitude, departureAirportLongitude],
+    airportDestination: [destinationAirportLatitude, destinationAirportLongitude]
+  });
+};
 
 const mapDispatchToProps = (dispatch, props) => ({
   startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints))

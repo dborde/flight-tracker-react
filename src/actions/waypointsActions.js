@@ -44,30 +44,29 @@ export const startAddWaypoints = (previous, current, v = 100, o = 10) => {
         let currentArray = drawnData;
         let val = currentArray.shift();
         let lastVal = current;
+        idx += 1;
         if (!val) {
           drawnData.shift();
-          idx += 1;
           currentArray = drawnData[0] || [];
           val = currentArray.shift();
         }
         if (!val) {
           return;
         }
-        dispatch(addWaypoints(val));
-        dispatch(getPosition([val.lat, val.lng]));
-        const bearing = calcBearing({
-          lat: val.lat,
-          lng: val.lng
-        }, {
-          lat: lastVal[0],
-          lng: lastVal[1]
-        });
-        idx += 1;
-        if (idx < v) {
+        if (idx < v && val.lat !== lastVal[0] && val.lng !== lastVal[1]) {
+          dispatch(addWaypoints(val));
+          dispatch(getPosition([val.lat, val.lng]));
+          const bearing = calcBearing({
+            lat: val.lat,
+            lng: val.lng
+          }, {
+            lat: lastVal[0],
+            lng: lastVal[1]
+          });
           dispatch(getBearing(bearing));
+          lastVal = val;
+          requestAnimationFrame(animateLine);
         }
-        lastVal = val;
-        requestAnimationFrame(animateLine);
       };
       requestAnimationFrame(animateLine);
     };
