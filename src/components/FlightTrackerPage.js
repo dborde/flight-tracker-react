@@ -1,6 +1,4 @@
 import React from 'react';
-import L from 'leaflet';
-import 'leaflet-arc';
 import { Map, Marker, TileLayer, Polyline } from 'react-leaflet';
 // import React, { PropTypes } from 'react';
 // import uuid from 'uuid';
@@ -60,9 +58,11 @@ export class FlightTrackerPage extends React.Component {
       // window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
   }
+
   handleZoomLevelChange(newZoomLevel) {
     this.setState({ currentZoomLevel: newZoomLevel });
   }
+
   render() {
     return (
       <div className="flight-map">

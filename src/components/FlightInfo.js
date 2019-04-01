@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import FlightTrackerPage from './FlightTrackerPage';
-import { startAddWaypoints } from '../actions/waypointsActions';
-import data from '../tests/fixtures/statusTray';
+import { startGetStatusTray } from '../actions/statusTrayActions';
+// import { startAddWaypoints } from '../actions/waypointsActions';
+// import data from '../tests/fixtures/statusTray';
 
 const initialZoomLevel = 6;
 export class FlightInfo extends React.Component {
@@ -10,12 +11,20 @@ export class FlightInfo extends React.Component {
     currentZoomLevel: initialZoomLevel
   }
   componentDidMount(prevProps, prevState) {
+    const testUpdate = this.updateFlightInfo();
+    testUpdate();
     // setTimeout(() => {
-    //   this.props.startAddWaypoints(
-    //     this.props.initialPlanePosition,
-    //     this.props.newPlanePosition
-    //   );
+    //   this.props.startGetStatusTray();
+    //   // if (this.props.initialPlanePosition[0] !== 0) {
+    //   //   this.props.startAddWaypoints(
+    //   //     this.props.initialPlanePosition,
+    //   //     this.props.newPlanePosition
+    //   //   );
+    //   // }
     // }, 1000);
+    // setTimeout(() => {
+    //   this.props.startGetStatusTray('2');
+    // }, 10000);
     // setTimeout(() => {
     //   this.props.startAddWaypoints(
     //     [42.553080288955826, -99.40429687500001],
@@ -28,12 +37,29 @@ export class FlightInfo extends React.Component {
     //     [37.78808138412046, -122.4755859375]
     //   );
     // }, 10000);
-    setTimeout(() => {
-      this.props.startAddWaypoints(
-        this.props.position,
-        this.props.newPlanePosition
-      );
-    }, 1000);
+    // setTimeout(() => {
+    //   this.props.startAddWaypoints(
+    //     this.props.position,
+    //     this.props.newPlanePosition
+    //   );
+    // }, 1000);
+  }
+  updateFlightInfo() {
+    let counter = 1;
+
+    const increment = () => {
+      if (counter < 6) {
+        counter.toString();
+        this.props.startGetStatusTray(counter);
+        this.updateTimeout = setTimeout(() => {
+          increment();
+        }, 5000);
+      }
+      parseInt(counter, 10);
+      counter += 1;
+    };
+
+    return increment;
   }
   componentDidUpdate(prevProps, prevState) {
     const {
@@ -49,7 +75,10 @@ export class FlightInfo extends React.Component {
     localStorage.setItem('bearing', bearingStorage);
   }
   componentWillUnmount() {
-    // TODO clear localStoarge
+    // TODO: handle clearing localStorage if on new flight.
+    // localStorage removal is currently handled in Gogo's
+    // webapps-gadgets/helpers/helperFn.js
+    clearTimeout(this.updateTimeout);
   }
   render() {
     return (
@@ -71,25 +100,22 @@ export class FlightInfo extends React.Component {
 
 const mapStateToProps = (state) => {
   const {
-    Response
-  } = data || {};
+    statusTray
+  } = state || {};
 
   const {
-    flightInfo
-  } = Response || {};
-
-  const { 
     departureAirportLatitude = 0,
     departureAirportLongitude = 0,
     destinationAirportLatitude = 0,
     destinationAirportLongitude = 0,
     latitude = 0,
     longitude = 0
-  } = flightInfo || {};
+  } = statusTray[0] || {};
 
   return ({
     initialPlanePosition: [departureAirportLatitude, departureAirportLongitude],
     waypoints: state.waypoints,
+    flightInfo: state.statusTray,
     bearing: state.bearing,
     position: state.currentPlanePosition[0] === 0 ?
       [departureAirportLatitude, departureAirportLongitude] : state.currentPlanePosition,
@@ -100,7 +126,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints))
+  // startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints)),
+  startGetStatusTray: (iteration) => dispatch(startGetStatusTray(iteration))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightInfo);
