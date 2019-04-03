@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { firebase, googleAuthProvider } from '../firebase/firebase';
 
 export const login = (uid) => ({
@@ -6,6 +7,8 @@ export const login = (uid) => ({
 });
 
 export const startLogin = () => {
+  const loginDate = moment();
+  localStorage.setItem('loginDate', loginDate);
   return () => {
     return firebase.auth().signInWithPopup(googleAuthProvider);
   };

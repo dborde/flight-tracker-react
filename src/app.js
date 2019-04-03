@@ -1,3 +1,4 @@
+import moment from 'moment';
 import 'normalize.css/normalize.css';
 import 'react-dates/lib/css/_datepicker.css';
 import React from 'react';
@@ -10,7 +11,14 @@ import './styles/styles.scss';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
 
-const store = configureStore();
+let useStorage = true;
+const lastLoginDate = localStorage.getItem('loginDate');
+const compare = moment(lastLoginDate).add(8, 'hours').valueOf();
+const now = moment().valueOf();
+if (compare < now) {
+  useStorage = false;
+}
+const store = configureStore(useStorage);
 
 const jsx = (
   <Provider store={store}>
@@ -29,6 +37,7 @@ const renderApp = () => {
 ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged((user) => {
+  // localStorage.removeItem('waypoints');
   if (user) {
     store.dispatch(login(user.uid));
     renderApp();

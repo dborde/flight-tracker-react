@@ -1,0 +1,78 @@
+{
+  "flightMap": {
+    "airplaneTileUrl": "http://cs.video.gogoinflight.com/media/maps/",
+    "groundTileUrl": "http://maps.cloud.gogoair.com/maps/ft4/",
+    "ACPUTileCheck": "http://cs.video.gogoinflight.com/media/maps/layers/base_map/L08/R00000026/C000000de.jpg?",
+    "baseLayer": {
+      "name": "abalta-gogo",
+      "path": "layers/base_map",
+      "maxZoom": 8,
+      "tileSize": 512,
+      "imgType": "jpg"
+    },
+    "airplaneRouteStyle": {
+      "color": "#48850b",
+      "weight": 3,
+      "vertices": 1000,
+      "opacity": 0.75
+    },
+    "localeMap": {
+      "en-US": "en-US",
+      "ja-JP": "ja-JP",
+      "pt-BR": "pt-BR",
+      "fr-CA": "fr-CA",
+      "es-MX": "es-MX"
+    },
+    "layers": [
+      {
+        "name": "countryborders",
+        "path": "layers/country_borders",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "en-US",
+        "path": "layers/english_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "ja-JP",
+        "path": "layers/japanese_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "pt-BR",
+        "path": "layers/brazilian_portuguese_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "es-MX",
+        "path": "layers/mexican_spanish_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "fr-CA",
+        "path": "layers/canadian_french_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "no_coverage_zone",
+        "path": "layers/no_coverage_zone",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      }
+    ]
+  }
+}

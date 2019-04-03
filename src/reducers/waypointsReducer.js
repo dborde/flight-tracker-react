@@ -8,6 +8,8 @@ export default (state = waypointsReducerDefaultState, action) => {
         ...state,
         action.waypoints
       ];
+    case 'REMOVE_WAYPOINTS':
+      return [];
     default:
       return state;
   }

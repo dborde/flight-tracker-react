@@ -2,6 +2,6 @@
 
 exports[`should render DashboardPage correctly 1`] = `
 <div>
-  <Connect(ExpensesSummary) />
+  <Connect(Menu) />
 </div>
 `;

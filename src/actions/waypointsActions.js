@@ -21,6 +21,10 @@ export const addWaypoints = (waypoints) => ({
   waypoints
 });
 
+export const removeWaypoints = () => ({
+  type: 'REMOVE_WAYPOINTS'
+});
+
 // GET_BEARING
 export const getBearing = (brng) => ({
   type: 'GET_BEARING',

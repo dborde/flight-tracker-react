@@ -8,14 +8,22 @@ import statusTrayReducer from '../reducers/statusTrayReducer';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default () => {
-  const initialState = {
+export default (useStorage) => {
+  let initialState = {
     waypoints: JSON.parse(localStorage.getItem('waypoints')) || [],
     bearing: JSON.parse(localStorage.getItem('bearing')) || 0,
     currentPlanePosition: JSON.parse(localStorage.getItem('position')) || [0, 0],
     statusTray: []
   };
-  
+  if (!useStorage) {
+    initialState = {
+      waypoints: [],
+      bearing: 0,
+      currentPlanePosition: [0, 0],
+      statusTray: []
+    };
+  }
+
   const store = createStore(
     combineReducers(
       {

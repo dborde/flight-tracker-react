@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { AddMarker } from './AddMarker';
 import { SetBounds } from './SetBounds';
 import { SetZoom } from './SetZoom';
+import RemoveWaypointBtn from './RemoveWaypointBtn';
 import RotatedMarker from './RotatedMarker';
 
 const airplane = new L.Icon({
@@ -32,7 +33,6 @@ const airportDestination = new L.Icon({
   popupAnchor: [10, -44],
   iconSize: [25, 55]
 });
-
 export class FlightTrackerPage extends React.Component {
   constructor(props) {
     super(props);
@@ -88,6 +88,9 @@ export class FlightTrackerPage extends React.Component {
             map={this.leafletMap}
             position={this.props.position}
             zoom={8}
+          />
+          <RemoveWaypointBtn
+            waypoints={this.props.waypoints}
           />
           <Marker className="flight-data" position={this.props.airportOrigin} icon={airportOrigin} />
           <RotatedMarker

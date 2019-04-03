@@ -2,10 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FlightTrackerPage from './FlightTrackerPage';
 import { startGetStatusTray } from '../actions/statusTrayActions';
+import { removeWaypoints } from '../actions/waypointsActions';
 // import { startAddWaypoints } from '../actions/waypointsActions';
 // import data from '../tests/fixtures/statusTray';
 
 const initialZoomLevel = 6;
+let proceed = true;
+function startTimer() {
+  console.log('focus');
+  proceed = true;
+}
+
+function stopTimer() {
+  console.log('blur');
+  proceed = false;
+}
+
+// Active
+window.addEventListener('focus', startTimer);
+// Inactive
+window.addEventListener('blur', stopTimer);
+
 export class FlightInfo extends React.Component {
   state = {
     currentZoomLevel: initialZoomLevel
@@ -48,9 +65,20 @@ export class FlightInfo extends React.Component {
     let counter = 1;
 
     const increment = () => {
-      if (counter < 6) {
+      if (counter < 6) {   
         counter.toString();
-        this.props.startGetStatusTray(counter);
+        if (proceed) {
+          this.props.startGetStatusTray(counter);
+        }
+        this.updateTimeout = setTimeout(() => {
+          increment();
+        }, 5000);
+      } else {
+        counter = 1;
+        counter.toString();
+        if (proceed) {
+          this.props.startGetStatusTray(counter);
+        }
         this.updateTimeout = setTimeout(() => {
           increment();
         }, 5000);
@@ -75,6 +103,8 @@ export class FlightInfo extends React.Component {
     localStorage.setItem('bearing', bearingStorage);
   }
   componentWillUnmount() {
+    console.log('unmounted');
+    this.props.removeWaypoints(this.props.waypoints);
     // TODO: handle clearing localStorage if on new flight.
     // localStorage removal is currently handled in Gogo's
     // webapps-gadgets/helpers/helperFn.js
@@ -127,7 +157,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, props) => ({
   // startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints)),
-  startGetStatusTray: (iteration) => dispatch(startGetStatusTray(iteration))
+  startGetStatusTray: (iteration) => dispatch(startGetStatusTray(iteration)),
+  removeWaypoints: () => dispatch(removeWaypoints())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightInfo);
