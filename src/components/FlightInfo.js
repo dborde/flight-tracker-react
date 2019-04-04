@@ -65,7 +65,7 @@ export class FlightInfo extends React.Component {
     let counter = 1;
 
     const increment = () => {
-      if (counter < 6) {   
+      if (counter < 7) {
         counter.toString();
         if (proceed) {
           this.props.startGetStatusTray(counter);
@@ -104,7 +104,6 @@ export class FlightInfo extends React.Component {
   }
   componentWillUnmount() {
     console.log('unmounted');
-    this.props.removeWaypoints(this.props.waypoints);
     // TODO: handle clearing localStorage if on new flight.
     // localStorage removal is currently handled in Gogo's
     // webapps-gadgets/helpers/helperFn.js

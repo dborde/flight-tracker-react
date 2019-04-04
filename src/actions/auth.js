@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { firebase, googleAuthProvider } from '../firebase/firebase';
+import { removeWaypoints } from '../actions/waypointsActions';
 
 export const login = (uid) => ({
   type: 'LOGIN',
@@ -9,7 +10,8 @@ export const login = (uid) => ({
 export const startLogin = () => {
   const loginDate = moment();
   localStorage.setItem('loginDate', loginDate);
-  return () => {
+  return (dispatch) => {
+    dispatch(removeWaypoints());
     return firebase.auth().signInWithPopup(googleAuthProvider);
   };
 };

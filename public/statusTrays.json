@@ -228,5 +228,51 @@
          ]
       },
       "flightInfoFIG2":null
+   },
+   "Response6":{  
+      "status":200,
+      "flightInfo":{  
+         "logo":null,
+         "airlineName":null,
+         "airlineCode":"ASA",
+         "airlineCodeIata":"AS",
+         "tailNumber":"0FTASA",
+         "flightNumberInfo":"ASA38",
+         "flightNumberAlpha":null,
+         "flightNumberNumeric":null,
+         "departureAirportCode":"KSEA",
+         "destinationAirportCode":"KFLL",
+         "departureAirportCodeIata":"SEA",
+         "destinationAirportCodeIata":"FLL",
+         "departureAirportLatitude":26.072017,
+         "destinationAirportLatitude":47.4475673,
+         "departureAirportLongitude":-80.1509967,
+         "destinationAirportLongitude":-122.3080159,
+         "origin":null,
+         "destination":null,
+         "departureCity":null,
+         "destinationCity":null,
+         "expectedArrival":"2019-04-11T18:59:28Z",
+         "abpVersion":"7.0.4",
+         "acpuVersion":"10.5.0",
+         "videoService":false,
+         "latitude":26.072017,
+         "longitude":-80.1509967,
+         "altitude":25000.0,
+         "localTime":null,
+         "utcTime":"2019-04-10T20:51:33Z",
+         "hspeed":575.34,
+         "vspeed":0.0
+      },
+      "gogoFacts":"Aircell (Gogo's parent company) holds 15 patents on their innovations in airborne telecommunications.",
+      "serviceInfo":{  
+         "service":"Inactive",
+         "remaining":0,
+         "quality":null,
+         "alerts":[  
+ 
+         ]
+      },
+      "flightInfoFIG2":null
    }
 }

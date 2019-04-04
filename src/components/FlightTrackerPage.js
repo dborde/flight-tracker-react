@@ -1,5 +1,6 @@
 import React from 'react';
 import { Map, Marker, TileLayer, Polyline } from 'react-leaflet';
+import L from 'leaflet';
 // import React, { PropTypes } from 'react';
 // import uuid from 'uuid';
 import { connect } from 'react-redux';
