@@ -3,7 +3,7 @@ import React from 'react';
 const zoom = (data) => {
   if (data) {
     const leafletMap = data.map.leafletElement;
-    leafletMap.setView(data.position, data.zoom);
+    leafletMap.setView(data.position, data.zoom || 8);
   }
 };
 

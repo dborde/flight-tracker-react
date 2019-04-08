@@ -31,10 +31,20 @@ export const getBearing = (brng) => ({
   brng
 });
 
+// REMOVE_BEARING
+export const removeBearing = () => ({
+  type: 'REMOVE_BEARING'
+});
+
 // GET_POSITION
 export const getPosition = (pos) => ({
   type: 'GET_POSITION',
   currentPlanePosition: pos
+});
+
+// REMOVE_POSITION
+export const removePosition = (pos) => ({
+  type: 'REMOVE_POSITION'
 });
 
 // START_ADD_WAYPOINTS

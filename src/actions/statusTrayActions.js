@@ -43,6 +43,7 @@ export const startGetStatusTray = (iteration = 1) => {
           flightInfo
         } = data[`Response${iteration}`] || {};
         const update = getState();
+        // Temporay gps simulator
         const position = update.currentPlanePosition[0] === 0 ?
           [flightInfo.departureAirportLatitude, flightInfo.departureAirportLongitude] :
           [update.currentPlanePosition[0], update.currentPlanePosition[1]];

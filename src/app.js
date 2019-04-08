@@ -11,6 +11,7 @@ import './styles/styles.scss';
 import { firebase } from './firebase/firebase';
 import LoadingPage from './components/LoadingPage';
 
+// Using localStoarge may cause side effects. be careful here.
 let useStorage = true;
 const lastLoginDate = localStorage.getItem('loginDate');
 const compare = moment(lastLoginDate).add(8, 'hours').valueOf();

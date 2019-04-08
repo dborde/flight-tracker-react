@@ -1,4 +1,24 @@
 {
+  "AIRLINE": {
+    "AAL": "AA",
+    "ACA": "AC",
+    "AMX": "AM",
+    "ASA": "AS",
+    "BAW": "BA",
+    "BSK": "LL",
+    "CPA": "CX",
+    "DAL": "DL",
+    "GLO": "G3",
+    "IBE": "IB",
+    "JAL": "JL",
+    "JTA": "NU",
+    "ROU": "RV",
+    "TAM": "JJ",
+    "UAL": "UA",
+    "VIR": "VS",
+    "VRD": "VX",
+    "VOZ": "VA"
+  },
   "flightMap": {
     "airplaneTileUrl": "http://cs.video.gogoinflight.com/media/maps/",
     "groundTileUrl": "http://maps.cloud.gogoair.com/maps/ft4/",
@@ -21,12 +41,40 @@
       "ja-JP": "ja-JP",
       "pt-BR": "pt-BR",
       "fr-CA": "fr-CA",
-      "es-MX": "es-MX"
+      "es-MX": "es-MX",
+      "ko-KR": "ko-KR",
+      "zh-CN": "zh-CN",
+      "zh-HK": "zh-HK",
+      "de-DE": "de-DE"
     },
     "layers": [
       {
         "name": "countryborders",
         "path": "layers/country_borders",
+        "airlines": [
+          "AAL",
+          "AMX",
+          "ASA",
+          "BAW",
+          "BSK",
+          "DAL",
+          "GLO",
+          "IBE",
+          "JAL",
+          "JTA",
+          "TAM",
+          "UAL",
+          "VIR",
+          "VRD",
+          "ZZZ"
+        ],
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "no_coverage_zone",
+        "path": "layers/no_coverage_zone",
         "maxZoom": 8,
         "tileSize": 512,
         "imgType": "png"
@@ -41,6 +89,34 @@
       {
         "name": "ja-JP",
         "path": "layers/japanese_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "ko-KR",
+        "path": "layers/korean_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "zh-CN",
+        "path": "layers/chinese_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "zh-HK",
+        "path": "layers/traditional_chinese_labels",
+        "maxZoom": 8,
+        "tileSize": 512,
+        "imgType": "png"
+      },
+      {
+        "name": "de-DE",
+        "path": "layers/deutsch_labels",
         "maxZoom": 8,
         "tileSize": 512,
         "imgType": "png"
@@ -62,13 +138,6 @@
       {
         "name": "fr-CA",
         "path": "layers/canadian_french_labels",
-        "maxZoom": 8,
-        "tileSize": 512,
-        "imgType": "png"
-      },
-      {
-        "name": "no_coverage_zone",
-        "path": "layers/no_coverage_zone",
         "maxZoom": 8,
         "tileSize": 512,
         "imgType": "png"

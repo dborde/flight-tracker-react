@@ -30,21 +30,31 @@ const correctEdges = (zoom, column) => {
   return column;
 };
 
+// destructor flightMap and children
 const {
   flightMap
 } = config || {};
 const {
+  airplaneTileUrl,
   groundTileUrl,
+  ACPUTileCheck,
   baseLayer = {},
   localeMap = {},
-  layers = [{}]
+  layers = []
 } = flightMap || {};
+const [
+  countryborders = {},
+  noCoverageZone = {}
+] = layers;
 const {
-  name,
-  folderPath,
+  airlines = []
+} = countryborders;
+const {
+  name = '',
+  path = '',
   maxZoom = 8,
   tileSize = 512,
-  imgType
+  imgType = ''
 } = baseLayer || {};
 
 const airplane = new L.Icon({
@@ -97,8 +107,8 @@ export class FlightTrackerPage extends React.Component {
     leafletMap.on('zoomend', () => {
       const updatedZoomLevel = leafletMap.getZoom();
       this.handleZoomLevelChange(updatedZoomLevel);
-      // window.console.log('Current zoom level -> ', leafletMap.getZoom());
-      // window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
+      window.console.log('Current zoom level -> ', leafletMap.getZoom());
+      window.console.log('this.state.zoom ->', this.state.currentZoomLevel);
     });
     L.TileLayer.Gogo = L.TileLayer.extend({
       attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
@@ -116,22 +126,19 @@ export class FlightTrackerPage extends React.Component {
         return `http://maps.cloud.gogoair.com/maps/ft4/${this.options.path}/${_z}/${_y}/${_x}.${this.options.imgType}`;
       }
     });
-    L.tileLayer.gogo = () => {
-      return new L.TileLayer.Gogo('Map', baseLayer);
-    };
+    L.tileLayer.gogo = () => new L.TileLayer.Gogo('Map', baseLayer);
     L.tileLayer.gogo().addTo(leafletMap);
-    // const layerNames = layers
-    //   .map((layer) => layer.name);
-
-
-    // const displayLayers = ['countryborders', get(localeMap, 'en-US')];
-
-    // layerNames.forEach((name) => {
-    //   if (displayLayers.indexOf(name) > -1) {
-    //     L.TileLayer[name]().addTo(leafletMap);
-    //   }
-    // });
-    // L.tileLayer.gogo().addTo(leafletMap);
+    const layerNames = layers
+      .map((layer) => layer.name);  
+    const airline = this.props.airlineCode;
+    // locale = config.get('servicesLocale.defaultLanguage');
+    const locale = 'en-US';
+    const borders = airlines.indexOf(airline) > -1 ?
+      'countryborders' : '';
+    [locale, borders].forEach((elem) => {
+      L.tileLayer.data = () => new L.TileLayer.Gogo('Map', layers[layerNames.indexOf(elem)]);
+      L.tileLayer.data().addTo(leafletMap);
+    });
     leafletMap.setMaxBounds(bounds);
   }
 
@@ -149,7 +156,8 @@ export class FlightTrackerPage extends React.Component {
           zoom={this.props.zoom}
           crs={wgs84}
           worldCopyJump={true}
-          maxZoom={7}
+
+          minZoom={2}
           bounds={bounds}
         >
           <AddMarker

@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import FlightTrackerPage from './FlightTrackerPage';
 import { startGetStatusTray } from '../actions/statusTrayActions';
-import { removeWaypoints } from '../actions/waypointsActions';
-// import { startAddWaypoints } from '../actions/waypointsActions';
+import { startAddWaypoints, removeWaypoints, removeBearing, removePosition } from '../actions/waypointsActions';
 // import data from '../tests/fixtures/statusTray';
 
 const initialZoomLevel = 6;
 let proceed = true;
+
+// For stubbing GPS simulator: pause and resume
 function startTimer() {
   console.log('focus');
   proceed = true;
 }
-
 function stopTimer() {
   console.log('blur');
   proceed = false;
@@ -28,17 +28,24 @@ export class FlightInfo extends React.Component {
     currentZoomLevel: initialZoomLevel
   }
   componentDidMount(prevProps, prevState) {
+    // this.props.removeWaypoints();
+    // this.props.removeBearing();
+    // this.props.removePosition();
     const testUpdate = this.updateFlightInfo();
     testUpdate();
+
+    // Prod: will use websockets for model updates
     // setTimeout(() => {
-    //   this.props.startGetStatusTray();
-    //   // if (this.props.initialPlanePosition[0] !== 0) {
-    //   //   this.props.startAddWaypoints(
-    //   //     this.props.initialPlanePosition,
-    //   //     this.props.newPlanePosition
-    //   //   );
-    //   // }
+    //   this.props.startGetStatusTray('1');
+    //   if (this.props.initialPlanePosition[0] !== 0) {
+    //     this.props.startAddWaypoints(
+    //       this.props.initialPlanePosition,
+    //       this.props.newPlanePosition
+    //     );
+    //   }
     // }, 1000);
+
+
     // setTimeout(() => {
     //   this.props.startGetStatusTray('2');
     // }, 10000);
@@ -108,6 +115,9 @@ export class FlightInfo extends React.Component {
     // localStorage removal is currently handled in Gogo's
     // webapps-gadgets/helpers/helperFn.js
     clearTimeout(this.updateTimeout);
+    // this.props.removeWaypoints();
+    // this.props.removeBearing();
+    // this.props.removePosition();
   }
   render() {
     return (
@@ -116,6 +126,7 @@ export class FlightInfo extends React.Component {
           initialPlanePosition={this.props.initialPlanePosition}
           zoom={this.state.currentZoomLevel}
           waypoints={this.props.waypoints}
+          airlineCode={this.props.airlineCode}
           bearing={this.props.bearing}
           newPlanePosition={this.props.newPlanePosition}
           position={this.props.position}
@@ -133,6 +144,7 @@ const mapStateToProps = (state) => {
   } = state || {};
 
   const {
+    airlineCode = 'ZZZ',
     departureAirportLatitude = 0,
     departureAirportLongitude = 0,
     destinationAirportLatitude = 0,
@@ -145,6 +157,7 @@ const mapStateToProps = (state) => {
     initialPlanePosition: [departureAirportLatitude, departureAirportLongitude],
     waypoints: state.waypoints,
     flightInfo: state.statusTray,
+    airlineCode,
     bearing: state.bearing,
     position: state.currentPlanePosition[0] === 0 ?
       [departureAirportLatitude, departureAirportLongitude] : state.currentPlanePosition,
@@ -155,9 +168,11 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch, props) => ({
-  // startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints)),
+  startAddWaypoints: (...waypoints) => dispatch(startAddWaypoints(...waypoints)),
   startGetStatusTray: (iteration) => dispatch(startGetStatusTray(iteration)),
-  removeWaypoints: () => dispatch(removeWaypoints())
+  removeWaypoints: () => dispatch(removeWaypoints()),
+  removeBearing: () => dispatch(removeBearing()),
+  removePosition: () => dispatch(removePosition())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(FlightInfo);
