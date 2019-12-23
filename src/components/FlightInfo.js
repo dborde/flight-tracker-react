@@ -79,7 +79,7 @@ export class FlightInfo extends React.Component {
         }
         this.updateTimeout = setTimeout(() => {
           increment();
-        }, 5000);
+        }, 10000);
       } else {
         counter = 1;
         counter.toString();
@@ -88,7 +88,7 @@ export class FlightInfo extends React.Component {
         }
         this.updateTimeout = setTimeout(() => {
           increment();
-        }, 5000);
+        }, 10000);
       }
       parseInt(counter, 10);
       counter += 1;

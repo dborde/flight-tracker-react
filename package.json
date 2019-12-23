@@ -32,7 +32,7 @@
     "leaflet-rotatedmarker": "^0.2.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "node-sass": "4.5.3",
+    "node-sass": "^4.13.0",
     "normalize.css": "7.0.0",
     "numeral": "2.0.6",
     "raf": "3.3.2",

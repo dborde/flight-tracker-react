@@ -1,0 +1,243 @@
+{
+  "Response": {  
+    "status":200,
+    "flightInfo":{  
+      "logo":null,
+      "airlineName":null,
+      "airlineCode":"DAL",
+      "airlineCodeIata":null,
+      "tailNumber":"0LAN03",
+      "flightNumberInfo":"DAL686",
+      "flightNumberAlpha":null,
+      "flightNumberNumeric":null,
+      "departureAirportCode":"KATL",
+      "destinationAirportCode":"MDSD",
+      "departureAirportCodeIata":"ATL",
+      "destinationAirportCodeIata":"SDQ",
+      "departureAirportLatitude":33.64,
+      "destinationAirportLatitude":18.42,
+      "departureAirportLongitude":-84.42,
+      "destinationAirportLongitude":-69.66,
+      "origin":null,
+      "destination":null,
+      "departureCity":null,
+      "destinationCity":null,
+      "expectedArrival":"2019-04-26T16:43:00.000Z",
+      "abpVersion":"7.0.16",
+      "acpuVersion":"10.11.0",
+      "videoService":false,
+      "latitude":42.07,
+      "longitude":-87.97,
+      "altitude":24301.184,
+      "localTime":null,
+      "utcTime":"2019-04-26T19:25:10.19Z",
+      "hspeed":690.4081,
+      "vspeed":0.0
+    },
+    "gogoFacts":"On March 8, 1994, Don Ku was granted a patent for a wheeled suitcase with a collapsible towing handle.",
+    "serviceInfo":{  
+      "service":"Inactive",
+      "remaining":0,
+      "quality":null,
+      "alerts":[  
+
+      ]
+    },
+    "flightInfoFIG2":{  
+      "flight":{  
+          "id":-1,
+          "key_time":"2019-04-26T16:53:01Z",
+          "flight_state":"AT_ARRIVAL_GATE",
+          "flight_number":"686",
+          "flight_identifier":"DAL686",
+          "oooi":{  
+            "out":"2019-04-26T14:07:11Z",
+            "off":"2019-04-26T14:07:11Z",
+            "attributes":{  
+
+            }
+          },
+          "gps":{  
+            "time":"2019-04-26T16:53:01Z",
+            "latitude":18.43,
+            "longitude":-69.67,
+            "speed":0,
+            "heading":80,
+            "flight_level":6,
+            "calculations":{  
+                "direct_course_distance":1208.4973633632944,
+                "attributes":{  
+
+                }
+            },
+            "attributes":{  
+
+            }
+          },
+          "time_above_service_level":{  
+            "first_known":"2019-04-26T14:07:11Z",
+            "last_known":"2019-04-26T16:34:21Z",
+            "attributes":{  
+
+            }
+          },
+          "attributes":{  
+
+          }
+      },
+      "aircraft":{  
+          "id":4938,
+          "registration_number":"0LAN03",
+          "airline_icao":{  
+            "attributes":{  
+
+            },
+            "owner":"DAL",
+            "partner":"DAL"
+          },
+          "fleet_number":"3719",
+          "aircraft_type":"B737-832",
+          "seat_count":160,
+          "airlines":[  
+            {  
+                "id":2654,
+                "name":"Delta Air Lines",
+                "icao":"DAL",
+                "iata":"DL",
+                "currency":"USD",
+                "locale":"en-US",
+                "call_sign":"DELTA",
+                "incorporated_country":"US",
+                "incorporated_country_name":"United States",
+                "attributes":{  
+
+                }
+            }
+          ],
+          "connections":[  
+            {  
+                "id":10882,
+                "aircraft_id":4938,
+                "connectivity_type":"2KU",
+                "connectivity_type_last_changed":"2017-02-08T00:00:00Z",
+                "attributes":{  
+
+                }
+            }
+          ],
+          "attributes":{  
+            "video_capability":"GGV",
+            "firehose_sync":"true",
+            "product":"airborne_monitor",
+            "firehose_sync_lock":"false",
+            "connectivity_identifier":"N389DA",
+            "serial_number":"30376",
+            "gogo_business":"CA",
+            "source":"NAV",
+            "official_registration":"0LAN03",
+            "transaction_routing_id":"D1",
+            "manufacturer":"BOE",
+            "connectivity_provider":"GOGO",
+            "mode_s_code":"A47D05",
+            "source_id":"32;mBKoAAJ7/04AMwA4ADkARABBADEAMAA19;3098921790;",
+            "make":"737-800",
+            "class":"MEDIUM_JET",
+            "status":"Active"
+          }
+      },
+      "departure":{  
+          "airport":{  
+            "id":18663,
+            "icao":"KATL",
+            "iata":"ATL",
+            "name":"Hartsfield Jackson Atlanta Intl",
+            "mailing_address":{  
+                "municipality":"Atlanta",
+                "administrative_area":"GA",
+                "administrative_area_name":"Georgia",
+                "country":"US",
+                "country_name":"United States",
+                "postal_code":"30337",
+                "attributes":{  
+
+                }
+            },
+            "location":{  
+                "latitude":33.636697222222224,
+                "longitude":-84.4278638888889,
+                "elevation":313,
+                "attributes":{  
+
+                }
+            },
+            "time_zone_offset":-4,
+            "attributes":{  
+                "product_region":"DOM",
+                "marketing_municipality":"Atlanta",
+                "billing_municipality":"Atlanta",
+                "icao_update_time":"1519942539277"
+            }
+          },
+          "time":{  
+            "actual":"2019-04-26T14:07:11Z",
+            "estimated":"2019-04-26T14:07:11Z",
+            "computed":"2019-04-26T14:07:11Z",
+            "attributes":{  
+
+            }
+          },
+          "attributes":{  
+
+          }
+      },
+      "arrival":{  
+          "airport":{  
+            "id":17267,
+            "icao":"MDSD",
+            "iata":"SDQ",
+            "name":"Las Americas Intl",
+            "mailing_address":{  
+                "municipality":"Santo Domingo",
+                "administrative_area":"32",
+                "administrative_area_name":"Santo Domingo",
+                "country":"DO",
+                "country_name":"Dominican Republic",
+                "attributes":{  
+
+                }
+            },
+            "location":{  
+                "latitude":18.42966388888889,
+                "longitude":-69.668925,
+                "elevation":3,
+                "attributes":{  
+
+                }
+            },
+            "time_zone_offset":-4,
+            "attributes":{  
+                "product_region":"DOM",
+                "marketing_municipality":"Santo Domingo",
+                "billing_municipality":"Santo Domingo",
+                "icao_update_time":"1519942982525",
+                "geolocation_update_time":"1521145478657"
+            }
+          },
+          "time":{  
+            "estimated":"2019-04-26T16:53:00Z",
+            "computed":"2019-04-26T16:53:00Z",
+            "attributes":{  
+
+            }
+          },
+          "attributes":{  
+
+          }
+      },
+      "statusCode":200,
+      "statusMessage":"OK"
+    },
+    "ipAddress":"172.19.131.180",
+    "macAddress":"52:54:00:66:83:25"
+  }
+}

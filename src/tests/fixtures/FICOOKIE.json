@@ -1,0 +1,58 @@
+{  
+   "macAddress":"52:54:00:44:D3:ED",
+   "airline":{  
+      "codes":{  
+         "iata":"DL",
+         "icao":"DAL"
+      }
+   },
+   "acftType":"B777-232 LR",
+   "flightNum":"DAL468",
+   "flightNumAlpha":"DAL",
+   "flightNumNumeric":"468",
+   "departure":{  
+      "departureTime":"2019-04-09T03:40:44Z",
+      "additionalProperties":{  
+
+      },
+      "name":"John F Kennedy Intl",
+      "icaoCode":"KJFK",
+      "iataCode":"JFK",
+      "faaCode":"JFK",
+      "city":"New York",
+      "state":"NY",
+      "country":"United States",
+      "zip":"11430",
+      "utcOffset":-4.0,
+      "lat":"40.639925",
+      "lon":"-73.77869444444444"
+   },
+   "destination":{  
+      "arrivalTime":"2019-04-09T13:41:00Z",
+      "additionalProperties":{  
+
+      },
+      "name":"Ben Gurion",
+      "icaoCode":"LLBG",
+      "iataCode":"TLV",
+      "faaCode":"TLV",
+      "city":"Tel-aviv",
+      "state":"M",
+      "country":"Israel",
+      "zip":"00000",
+      "utcOffset":3.0,
+      "lat":"32.00944444444445",
+      "lon":"34.885555555555555"
+   },
+   "region":"INT",
+   "division":"ROW",
+   "txRouting":"D2",
+   "tailNumber":"0DLST2",
+   "acpuIpAddress":"10.111.6.1, 10.1.81.252, 172.21.194.189, 172.21.110.217",
+   "connectivityType":[  
+      "KU"
+   ],
+   "additionalProperties":{  
+
+   }
+}
